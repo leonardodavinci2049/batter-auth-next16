@@ -3,17 +3,13 @@ import { redirect } from "next/navigation";
 import { auth } from "./auth";
 
 export const authSession = async () => {
-  try {
-    const session = auth.api.getSession({ headers: await headers() });
+  const session = await auth.api.getSession({ headers: await headers() });
 
-    if (!session) {
-      throw new Error("Unauthorized: No valid session found");
-    }
-
-    return session;
-  } catch {
-    throw new Error("Authentication failed");
+  if (!session) {
+    throw new Error("Unauthorized: No valid session found");
   }
+
+  return session;
 };
 
 export const authIsRequired = async () => {
@@ -27,9 +23,14 @@ export const authIsRequired = async () => {
 };
 
 export const authIsNotRequired = async () => {
-  const session = await authSession();
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
 
-  if (session) {
-    redirect("/");
+    if (session) {
+      redirect("/");
+    }
+  } catch {
+    // No session found, which is expected for public pages
+    return;
   }
 };
