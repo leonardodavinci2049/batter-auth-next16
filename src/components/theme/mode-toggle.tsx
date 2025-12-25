@@ -21,7 +21,11 @@ export default function ModeToggle() {
   if (!mounted) {
     // Return a placeholder with the same dimensions to avoid layout shift
     return (
-      <Button variant="ghost" className="w-10 rounded-full" aria-label="Toggle Theme">
+      <Button
+        variant="ghost"
+        className="w-10 rounded-full"
+        aria-label="Toggle Theme"
+      >
         <div className="size-5" />
       </Button>
     );
