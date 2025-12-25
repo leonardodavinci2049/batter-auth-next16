@@ -4,7 +4,7 @@ import { createPool } from "mysql2/promise";
 import { envs } from "@/core/config/envs";
 
 export const auth = betterAuth({
-  secret: envs.AUTH_SECRET,
+  secret: envs.BETTER_AUTH_SECRET,
   database: createPool({
     host: envs.DB_MYSQL_HOST,
     port: envs.DB_MYSQL_PORT,
@@ -17,6 +17,12 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+  },
+  socialProviders: {
+    github: {
+      clientId: envs.GITHUB_CLIENT_ID as string,
+      clientSecret: envs.GITHUB_CLIENT_SECRET as string,
+    },
   },
   plugins: [
     nextCookies(), // make sure this is the last plugin in the array

@@ -60,8 +60,12 @@ class DatabaseService {
         user: envs.DB_MYSQL_USER,
         password: envs.DB_MYSQL_PASSWORD,
         waitForConnections: true,
-        connectionLimit: 10,
-        queueLimit: 0,
+        connectionLimit: 5,
+        maxIdle: 2,
+        idleTimeout: 10000,
+        enableKeepAlive: true,
+        keepAliveInitialDelay: 5000,
+        queueLimit: 50,
       };
 
       this.poolConnection = createPool(config);
@@ -181,7 +185,7 @@ class DatabaseService {
       return result;
     } catch (error) {
       await connection.rollback();
-      console.error("Transação falhou. Revertida.", error);
+      console.error("Transação falhou Revertida. Revertida.", error);
       throw error;
     } finally {
       connection.release();
