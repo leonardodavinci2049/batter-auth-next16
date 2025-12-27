@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
@@ -38,6 +39,7 @@ const formSchema = z
   });
 
 export function SignUpForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -50,7 +52,7 @@ export function SignUpForm() {
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      await authClient.signUp.email(
+      const result = await authClient.signUp.email(
         {
           name: data.name,
           email: data.email,
@@ -58,15 +60,23 @@ export function SignUpForm() {
         },
         {
           onSuccess: async () => {
-            toast.success("Sign up successfull");
+            toast.success(
+              "Sign up successful! Please check your email to verify your account.",
+            );
+            router.push("/sign-in");
           },
           onError: (ctx) => {
             toast.error(ctx.error.message);
           },
         },
       );
-    } catch {
-      throw new Error("Something went wrong");
+
+      if (result.error) {
+        toast.error(result.error.message || "Failed to sign up");
+      }
+    } catch (error) {
+      console.error("SignUp error:", error);
+      toast.error("Something went wrong. Please try again.");
     }
   };
 
