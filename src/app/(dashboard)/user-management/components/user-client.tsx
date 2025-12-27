@@ -79,7 +79,8 @@ export default function UserManagementForm({ users }: { users: UserProps[] }) {
           name: values.name,
           email: values.email,
           password: values.password as string,
-          role: values.role as Role,
+          // @ts-expect-error - Better Auth types don't support custom roles yet (see: https://github.com/better-auth/better-auth/issues/6642)
+          role: values.role,
         });
 
         toast.success("New user created successfully");
@@ -89,7 +90,7 @@ export default function UserManagementForm({ users }: { users: UserProps[] }) {
           data: {
             name: values.name,
             email: values.email,
-            role: values.role as Role,
+            role: values.role,
           },
         });
 

@@ -1,5 +1,5 @@
-import RequestPasswordEmail from "@/emails/request-password-email";
 import { Resend } from "resend";
+import RequestPasswordEmail from "@/emails/request-password-email";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -15,7 +15,7 @@ export const sendResetPasswordEmail = async ({
   subject,
 }: EmailProps) => {
   await resend.emails.send({
-    from: process.env.EMAIL_FROM!,
+    from: process.env.EMAIL_FROM ?? "",
     to,
     subject,
     react: <RequestPasswordEmail url={url} to={to} />,

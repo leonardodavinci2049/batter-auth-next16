@@ -13,7 +13,7 @@ export const authSession = async () => {
 };
 
 export const authIsRequired = async () => {
-  const session = await authSession();
+  const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session) {
     redirect("/sign-in");

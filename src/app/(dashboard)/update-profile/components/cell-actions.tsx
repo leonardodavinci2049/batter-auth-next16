@@ -49,7 +49,8 @@ export const CellActions = ({
   return (
     <>
       <div className="flex justify-end gap-6">
-        <div
+        <button
+          type="button"
           className="cursor-pointer"
           title="Edit"
           onClick={() => {
@@ -65,17 +66,18 @@ export const CellActions = ({
           }}
         >
           <Edit />
-        </div>
+        </button>
 
         {hasDeletePermission && (
-          <div
+          <button
+            type="button"
             className="cursor-pointer"
             onClick={() => {
               setIsDeleteModalOpen(true);
             }}
           >
             <Trash className="text-rose-500 " />
-          </div>
+          </button>
         )}
       </div>
 

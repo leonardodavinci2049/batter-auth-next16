@@ -21,7 +21,8 @@ export const VerificationEmail = ({
   userName,
   appName = "betterauth-next",
 }: VerificationEmailProps) => (
-  <Html>a
+  <Html>
+    a
     <Head />
     <Tailwind>
       <Body className="bg-white font-Betterauth-next">
