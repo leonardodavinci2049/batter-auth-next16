@@ -11,14 +11,14 @@ export const ourFileRouter = {
       maxFileCount: 1,
     },
   })
-    .middleware(async ({}) => {
+    .middleware(async () => {
       const session = await authSession();
 
       if (!session) throw new UploadThingError("Unauthorized");
 
       return { userId: session.user.id };
     })
-    .onUploadComplete(async ({ metadata, file }) => {
+    .onUploadComplete(async ({ metadata }) => {
       return { uploadedBy: metadata.userId };
     }),
 } satisfies FileRouter;
